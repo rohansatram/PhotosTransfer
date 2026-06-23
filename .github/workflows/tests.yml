@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Sets up uv and caches ~/.cache/uv keyed on uv.lock.
+      # On a cache hit, uv sync finishes in <1s.
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      # Install all dependency groups (including dev: pytest, pytest-cov).
+      # uv also downloads and pins the right Python version automatically.
+      - run: uv sync --all-groups
+
+      - run: uv run pytest
