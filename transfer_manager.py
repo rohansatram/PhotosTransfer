@@ -109,7 +109,7 @@ class TransferManager:
     self.source.pull(remote_path, local_tmp)
 
     # Step 2: push from local machine to destination device
-    self.dest.push(local_tmp, self.dest_dir)
+    self.dest.push(local_tmp, dest_path)
 
     # Step 3: preserve original modified time before media scan
     self.dest.set_mtime(dest_path, mtime_epoch)

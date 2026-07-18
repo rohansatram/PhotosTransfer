@@ -143,13 +143,13 @@ class TestTransferOne:
     source.pull.assert_called_once()
     assert source.pull.call_args[0][0] == "/sdcard/DCIM/photo.jpg"
 
-  def test_success_pushes_to_dest_dir(self, manager, source, dest):
+  def test_success_pushes_to_dest_path(self, manager, source, dest):
     source.file_size.return_value = 512
     dest.file_size.return_value = 512
     with patch("os.remove"), patch("transfer_manager.tqdm.write"):
       self._run(manager, "/sdcard/DCIM/photo.jpg", 1000)
     dest.push.assert_called_once()
-    assert dest.push.call_args[0][1] == DEFAULT_DEST_DIR
+    assert dest.push.call_args[0][1] == f"{DEFAULT_DEST_DIR}/photo.jpg"
 
   def test_success_sets_mtime_on_dest(self, manager, source, dest):
     source.file_size.return_value = 100
